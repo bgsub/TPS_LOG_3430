@@ -1,0 +1,14 @@
+{
+    "p_sub_spam": {
+        "hey hey sugar": 1.0
+    },
+    "p_sub_ham": {
+        "hey hey sugar": 1.0
+    },
+    "p_body_spam": {
+        "hey hey sugar": 1.0
+    },
+    "p_body_ham": {
+        "hey hey sugar": 1.0
+    }
+}
