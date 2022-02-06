@@ -7,8 +7,8 @@ from email_analyzer import EmailAnalyzer
 
 class RENEGE:
 
-    """Classe pour realiser le filtrage du spam en utilisant le fichier vocabulary.json et
-    les classes CRUD et EmailAnalyzer"""
+    """Class pour realiser le filtrage du spam en utilisant vocabular.json file et
+    CRUD et EmalAnalyze classes"""
 
     def __init__(self):
         self.email_file = "train_set.json"
@@ -18,7 +18,7 @@ class RENEGE:
     def classify_emails(self):
         '''
         Description: fonction pour commencer l'analyse des e-mails.
-        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
         '''
         try:
             self.process_email(self.get_email())
@@ -32,9 +32,9 @@ class RENEGE:
     def process_email(self, new_emails):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
-        dictionnaire. Elle gere l'ajout des nouveaux utilisateurs et/ou modification
+        dictionare. Elle gere l'ajout des nouveux utilisateurs et/ou modification
         de l'information existante sur les utilisateurs et groupes. 
-        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
         '''
         emails = self.get_email()
         print("Processing emails")
@@ -90,7 +90,7 @@ class RENEGE:
         '''
         Description: fonction pour modifier l'information de utilisateur (date de dernier message arrive,
         numero de spam/ham, trust level, etc).
-        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
         '''
 
         # Update last / first seen date 
@@ -123,8 +123,8 @@ class RENEGE:
     def update_group_info(self, group_id, user_id):
         '''
         Description: fonction pour modifier l'information de groupe dans lequel 
-        l'utilisateur est present (trust level, etc).
-        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
+        l'utilisater est present (trust level, etc).
+        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
         '''        
         try:
             # Get list of users and update it
@@ -156,9 +156,9 @@ class RENEGE:
 
     def get_user_email_list(self):
         '''
-        Description: fonction pour creer la liste des e-mails (noms)
-        des utilisateurs.
-        Sortie: liste des e-mails des utilisateurs
+        Description: fonction pour creer le liste des e-mails (noms) 
+        des utilisateurs uniques.
+        Sortie: liste des uniques e-mails des utilisateurs
         '''
         emails = []
         for user in self.crud.users_data:
@@ -168,12 +168,41 @@ class RENEGE:
     def get_email(self):
         '''
         Description: fonction pour lire le ficher json avec les mails et extraire les 
-        donnees necessaires.
-        Sortie: dictionnaire des e-mails formates selon le JSON.
+        donees necessaire.
+        Sortie: dictionare de e-mails formate selon le JSON.
         '''
         with open(self.email_file) as email_file:
             return json.load(email_file)
 
-    ###########################################
-    #             CUSTOM FUNCTION             #
-    ###########################################
+    def calculate_trust_level(self, user_id):
+        '''
+        Description: Question deuxieme partie -> tests de flots de donnees
+        Sortie: boolean qui exprime si le niveau de trust est correct
+        '''
+
+        ham_n   = self.crud.get_user_data(user_id, "HamN")
+        spam_n  = self.crud.get_user_data(user_id, "SpamN")
+        date_of_last_seen_message_unix = self.crud.convert_to_unix(self.crud.get_user_data(user_id, "Date_of_last_seen_message"))
+        date_of_first_seen_message_unix = self.crud.convert_to_unix(self.crud.get_user_data(user_id, "Date_of_first_seen_message"))
+
+        trust_lvl1 = (date_of_last_seen_message_unix * ham_n) / (date_of_first_seen_message_unix * (ham_n + spam_n))
+
+        groups_list = self.crud.get_user_data(user_id, "Groups")
+        groups_len = len(groups_list)
+        groups_trust_total = 0
+        for group_name in groups_list:
+            group_id = self.crud.get_group_id(group_name)
+            groups_trust_total += self.crud.get_groups_data(group_id, "Trust")
+
+        trust_lvl2 = groups_trust_total / groups_len
+        
+        trust_lvl = trust_lvl1 + trust_lvl2
+
+        if(trust_lvl2 < 50):
+            trust_lvl = trust_lvl2
+
+        if(trust_lvl1 > 100):
+            trust_lvl = 100
+
+        return (0 <= trust_lvl <= 100)
+        
