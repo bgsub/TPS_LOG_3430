@@ -7,8 +7,8 @@ from email_analyzer import EmailAnalyzer
 
 class RENEGE:
 
-    """Class pour realiser le filtrage du spam en utilisant vocabular.json file et
-    CRUD et EmalAnalyze classes"""
+    """Classe pour realiser le filtrage du spam en utilisant le fichier vocabulary.json et
+    les classes CRUD et EmailAnalyzer"""
 
     def __init__(self):
         self.email_file = "train_set.json"
@@ -18,7 +18,7 @@ class RENEGE:
     def classify_emails(self):
         '''
         Description: fonction pour commencer l'analyse des e-mails.
-        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         try:
             self.process_email(self.get_email())
@@ -32,9 +32,9 @@ class RENEGE:
     def process_email(self, new_emails):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
-        dictionare. Elle gere l'ajout des nouveux utilisateurs et/ou modification
+        dictionnaire. Elle gere l'ajout des nouveaux utilisateurs et/ou modification
         de l'information existante sur les utilisateurs et groupes. 
-        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         emails = self.get_email()
         print("Processing emails")
@@ -90,7 +90,7 @@ class RENEGE:
         '''
         Description: fonction pour modifier l'information de utilisateur (date de dernier message arrive,
         numero de spam/ham, trust level, etc).
-        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
+        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
 
         # Update last / first seen date 
@@ -123,8 +123,8 @@ class RENEGE:
     def update_group_info(self, group_id, user_id):
         '''
         Description: fonction pour modifier l'information de groupe dans lequel 
-        l'utilisater est present (trust level, etc).
-        Sortie: bool, 'True' pour succes, 'False' dans le cas de failure.
+        l'utilisateur est present (trust level, etc).
+        Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''        
         try:
             # Get list of users and update it
@@ -156,9 +156,9 @@ class RENEGE:
 
     def get_user_email_list(self):
         '''
-        Description: fonction pour creer le liste des e-mails (noms) 
-        des utilisateurs uniques.
-        Sortie: liste des uniques e-mails des utilisateurs
+        Description: fonction pour creer la liste des e-mails (noms)
+        des utilisateurs.
+        Sortie: liste des e-mails des utilisateurs
         '''
         emails = []
         for user in self.crud.users_data:
@@ -168,13 +168,16 @@ class RENEGE:
     def get_email(self):
         '''
         Description: fonction pour lire le ficher json avec les mails et extraire les 
-        donees necessaire.
-        Sortie: dictionare de e-mails formate selon le JSON.
+        donnees necessaires.
+        Sortie: dictionnaire des e-mails formates selon le JSON.
         '''
         with open(self.email_file) as email_file:
             return json.load(email_file)
 
-    def calculate_trust_level(self, user_id):
+    ###########################################
+    #             CUSTOM FUNCTION             #
+    ###########################################
+def calculate_trust_level(self, user_id):
         '''
         Description: Question deuxieme partie -> tests de flots de donnees
         Sortie: boolean qui exprime si le niveau de trust est correct
@@ -205,4 +208,3 @@ class RENEGE:
             trust_lvl = 100
 
         return (0 <= trust_lvl <= 100)
-        

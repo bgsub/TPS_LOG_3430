@@ -7,11 +7,11 @@ class VocabularyCreator:
     """Class for creating vocabulary of spam and non-spam messages"""
 
     def __init__(self):
-        self.train_set  = "train_set.json"
-        self.cleaning   = TextCleaning()
+        self.train_set = "train_set.json"
+        self.cleaning = TextCleaning()
         self.vocabulary = "vocabulary.json"
-        self.voc_data   = {}
-    
+        self.voc_data = {}
+
     def compute_proba(self, data, total):
         '''
         Description: calcule la probabilité de chaque mot du dictionnaire basé sur
@@ -37,13 +37,13 @@ class VocabularyCreator:
 
         occ_spam_sub = {}
         occ_spam_bod = {}
-        occ_ham_sub  = {}
-        occ_ham_bod  = {}
+        occ_ham_sub = {}
+        occ_ham_bod = {}
 
         total_occ_spam_sub = 0
-        total_occ_ham_sub  = 0
+        total_occ_ham_sub = 0
         total_occ_spam_bod = 0
-        total_occ_ham_bod  = 0
+        total_occ_ham_bod = 0
 
         email_count = len(dataset["dataset"])
         i = 0
@@ -52,19 +52,19 @@ class VocabularyCreator:
         for email in dataset["dataset"]:
             i += 1
             print("\rEmail " + str(i) + "/" + str(email_count), end="")
-            
+
             # Get data
-            data    = email["mail"]
+            data = email["mail"]
             subject = data["Subject"]
-            body    = data["Body"]
+            body = data["Body"]
             is_spam = False
 
-            # Update the number of spams / hams  
+            # Update the number of spams / hams
             if data["Spam"] == "true":
-                is_spam     = True
+                is_spam = True
 
-            # Analyze the subject 
-            subject = self.cleaning.clean_text(subject)
+            # Analyze the subject
+            subject = self.clean_text(subject)
             if is_spam:
                 for wd in subject:
                     total_occ_spam_sub += 1
@@ -73,7 +73,7 @@ class VocabularyCreator:
                         occ_spam_sub[wd] = 1
                     else:
                         occ_spam_sub[wd] += 1
-            else: 
+            else:
                 for wd in subject:
                     total_occ_ham_sub += 1
                     # Add the word to the dictionary or update its occurence count
@@ -83,7 +83,7 @@ class VocabularyCreator:
                         occ_ham_sub[wd] += 1
 
             # Analyze the body
-            body = self.cleaning.clean_text(body)
+            body = self.clean_text(body)
             if is_spam:
                 for wd in body:
                     total_occ_spam_bod += 1
@@ -92,7 +92,7 @@ class VocabularyCreator:
                         occ_spam_bod[wd] = 1
                     else:
                         occ_spam_bod[wd] += 1
-            else: 
+            else:
                 for wd in body:
                     total_occ_ham_bod += 1
                     # Add the word to the dictionary or update its occurence count
@@ -102,16 +102,16 @@ class VocabularyCreator:
                         occ_ham_bod[wd] += 1
 
         # Create the data dictionary
-        p_sub_spam  = self.compute_proba(occ_spam_sub, total_occ_spam_sub)
-        p_sub_ham   = self.compute_proba(occ_ham_sub, total_occ_ham_sub)
+        p_sub_spam = self.compute_proba(occ_spam_sub, total_occ_spam_sub)
+        p_sub_ham = self.compute_proba(occ_ham_sub, total_occ_ham_sub)
         p_body_spam = self.compute_proba(occ_spam_bod, total_occ_spam_bod)
-        p_body_ham  = self.compute_proba(occ_ham_bod, total_occ_ham_bod)
-        
+        p_body_ham = self.compute_proba(occ_ham_bod, total_occ_ham_bod)
+
         self.voc_data = {
-           "p_sub_spam": p_sub_spam,
-           "p_sub_ham": p_sub_ham,
-           "p_body_spam": p_body_spam,
-           "p_body_ham": p_body_ham
+            "p_sub_spam": p_sub_spam,
+            "p_sub_ham": p_sub_ham,
+            "p_body_spam": p_body_spam,
+            "p_body_ham": p_body_ham
         }
 
         # Save data
@@ -119,7 +119,7 @@ class VocabularyCreator:
             json.dump(self.voc_data, outfile, indent=4)
 
         print("\n")
-        return True
+        return self.voc_data
 
     def load_dict(self):
         with open(self.train_set) as json_data:
@@ -131,9 +131,9 @@ class VocabularyCreator:
             with open(self.vocabulary, "w") as outfile:
                 json.dump(vocab, outfile)
                 print("Vocab created")
-                return True 
+                return True
         except:
             return False
-    
+
     def clean_text(self, text):
         return self.cleaning.clean_text(text)
