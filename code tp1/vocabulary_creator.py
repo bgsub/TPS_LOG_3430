@@ -59,11 +59,11 @@ class VocabularyCreator:
             body = data["Body"]
             is_spam = False
 
-            # Update the number of spams / hams  
+            # Update the number of spams / hams
             if data["Spam"] == "true":
                 is_spam = True
 
-            # Analyze the subject 
+            # Analyze the subject
             subject = self.clean_text(subject)
             if is_spam:
                 for wd in subject:

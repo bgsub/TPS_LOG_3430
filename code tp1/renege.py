@@ -177,3 +177,34 @@ class RENEGE:
     ###########################################
     #             CUSTOM FUNCTION             #
     ###########################################
+def calculate_trust_level(self, user_id):
+        '''
+        Description: Question deuxieme partie -> tests de flots de donnees
+        Sortie: boolean qui exprime si le niveau de trust est correct
+        '''
+
+        ham_n   = self.crud.get_user_data(user_id, "HamN")
+        spam_n  = self.crud.get_user_data(user_id, "SpamN")
+        date_of_last_seen_message_unix = self.crud.convert_to_unix(self.crud.get_user_data(user_id, "Date_of_last_seen_message"))
+        date_of_first_seen_message_unix = self.crud.convert_to_unix(self.crud.get_user_data(user_id, "Date_of_first_seen_message"))
+
+        trust_lvl1 = (date_of_last_seen_message_unix * ham_n) / (date_of_first_seen_message_unix * (ham_n + spam_n))
+
+        groups_list = self.crud.get_user_data(user_id, "Groups")
+        groups_len = len(groups_list)
+        groups_trust_total = 0
+        for group_name in groups_list:
+            group_id = self.crud.get_group_id(group_name)
+            groups_trust_total += self.crud.get_groups_data(group_id, "Trust")
+
+        trust_lvl2 = groups_trust_total / groups_len
+        
+        trust_lvl = trust_lvl1 + trust_lvl2
+
+        if(trust_lvl2 < 50):
+            trust_lvl = trust_lvl2
+
+        if(trust_lvl1 > 100):
+            trust_lvl = 100
+
+        return (0 <= trust_lvl <= 100)
