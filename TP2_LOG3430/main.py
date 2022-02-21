@@ -1,8 +1,9 @@
 import json
-from critere import Criteria
-from vocabulary_creator import VocabularyCreator
-from renege import RENEGE
+
+import critere
 from email_analyzer import EmailAnalyzer
+from renege import RENEGE
+from vocabulary_creator import VocabularyCreator
 
 
 def evaluate():
@@ -28,16 +29,17 @@ def evaluate():
         body = new_email["Body"]
         spam = new_email["Spam"]
 
-        if ((analyzer.is_spam(subject, body))) and (spam == "true"):
+        # Bayes probabilities
+        if (analyzer.is_spam(subject, body)) and (spam == "true"):
             tp += 1
         if (not (analyzer.is_spam(subject, body))) and (spam == "false"):
             tn += 1
-        if ((analyzer.is_spam(subject, body))) and (spam == "false"):
+        if (analyzer.is_spam(subject, body)) and (spam == "false"):
             fp += 1
         if (not (analyzer.is_spam(subject, body))) and (spam == "true"):
             fn += 1
         total += 1
-    
+
     print("")
     print("\nAccuracy: ", round((tp + tn) / (tp + tn + fp + fn), 2))
     print("Precision: ", round(tp / (tp + fp), 2))
@@ -46,7 +48,6 @@ def evaluate():
 
 
 if __name__ == "__main__":
-
     # 1. Creation de vocabulaire.
     vocab = VocabularyCreator()
     vocab.create_vocab()
@@ -55,7 +56,13 @@ if __name__ == "__main__":
     renege = RENEGE()
     renege.classify_emails()
 
-    #3. Evaluation de performance du modele avec la fonction evaluate()
+    # 3. Evaluation de performance du modele avec la fonction evaluate()
     evaluate()
-    criteria = Criteria() 
-    #print(criteria.is_spam()) ou print(criteria.is_spam_DNF()) tester avec 3 jeu de test pour CACC,GICC et IC
+
+    # Affichage des criteres
+    print("\n")
+    critere.CACC()
+    print("\n")
+    critere.GICC()
+    print("\n")
+    critere.IC()
