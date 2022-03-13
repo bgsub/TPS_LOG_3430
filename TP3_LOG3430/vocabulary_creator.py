@@ -24,7 +24,7 @@ class VocabularyCreator:
 
         return proba_dict
 
-    def create_vocab(self, desired_frequency, stemming):
+    def create_vocab(self, frequency, stemming):
         '''
         Description: fonction pour creer le vocabulaire des mots presents
         dans les e-mails spam et ham et le sauvegarder dans le fichier
@@ -34,17 +34,17 @@ class VocabularyCreator:
         print("Creating vocabulary")
 
         dataset = self.load_dict()
-       #array of occurrences for calculation
+        # array of occurrences for calculation
         occ_spam_sub = {}
         occ_spam_bod = {}
         occ_ham_sub = {}
         occ_ham_bod = {}
-        #array of occurrences with the desired frequency
+        # array of occurrences with the desired frequency
         desired_occ_spam_sub = {}
         desired_occ_spam_bod = {}
         desired_occ_ham_sub = {}
         desired_occ_ham_bod = {}
-         
+
         total_occ_spam_sub = 0
         total_occ_ham_sub = 0
         total_occ_spam_bod = 0
@@ -69,7 +69,7 @@ class VocabularyCreator:
                 is_spam = True
 
             # Analyze the subject
-            subject = self.clean_text(subject,stemming)
+            subject = self.clean_text(subject, stemming)
             if is_spam:
                 for wd in subject:
                     total_occ_spam_sub += 1
@@ -88,7 +88,7 @@ class VocabularyCreator:
                         occ_ham_sub[wd] += 1
 
             # Analyze the body
-            body = self.clean_text(body)
+            body = self.clean_text(body, stemming)
             if is_spam:
                 for wd in body:
                     total_occ_spam_bod += 1
@@ -105,22 +105,22 @@ class VocabularyCreator:
                         occ_ham_bod[wd] = 1
                     else:
                         occ_ham_bod[wd] += 1
-         
-        # Create the data dictionary with desired frequency 
-         for key in occ_spam_sub:
-            if(occ_spam_sub[key] >= frequency):
+
+        # Create the data dictionary with desired frequency
+        for key in occ_spam_sub:
+            if occ_spam_sub[key] >= int(frequency):
                 desired_occ_spam_sub[key] = occ_spam_sub[key]
         p_sub_spam = self.compute_proba(desired_occ_spam_sub, total_occ_spam_sub)
         for key in occ_ham_sub:
-            if(occ_ham_sub[key] >= frequency):
+            if occ_ham_sub[key] >= int(frequency):
                 desired_occ_ham_sub[key] = occ_ham_sub[key]
         p_sub_ham = self.compute_proba(desired_occ_ham_sub, total_occ_ham_sub)
         for key in occ_spam_bod:
-            if(occ_spam_bod[key] >= frequency):
+            if occ_spam_bod[key] >= int(frequency):
                 desired_occ_spam_bod[key] = occ_spam_bod[key]
         p_body_spam = self.compute_proba(desired_occ_spam_bod, total_occ_spam_bod)
         for key in occ_ham_bod:
-            if(occ_ham_bod[key] >= frequency):
+            if occ_ham_bod[key] >= int(frequency):
                 desired_occ_ham_bod[key] = occ_ham_bod[key]
         p_body_ham = self.compute_proba(desired_occ_ham_bod, total_occ_ham_bod)
 
@@ -152,5 +152,5 @@ class VocabularyCreator:
         except:
             return False
 
-    def clean_text(self, text,stemming):
-        return self.cleaning.clean_text(text,stemming)
+    def clean_text(self, text, stemming):
+        return self.cleaning.clean_text(text, stemming)

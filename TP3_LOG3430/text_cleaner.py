@@ -65,6 +65,6 @@ class TextCleaning:
         text = self.remove_non_ascii(text)
         text = self.tokenize_words(text)
         text = self.remove_stop_words(text)
-        if stemming
+        if stemming:
             text = self.stem_words(text)
         return text
