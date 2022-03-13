@@ -15,13 +15,13 @@ class RENEGE:
         self.crud = CRUD()
         self.e_mail = EmailAnalyzer()
 
-    def classify_emails(self):
+    def classify_emails(self,log_way_probs,log_way_merged_probs,stemming):
         '''
         Description: fonction pour commencer l'analyse des e-mails.
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         try:
-            self.process_email(self.get_email())
+            self.process_email(log_way_probs,log_way_merged_probs,stemming)
             return True
         except Exception as e:
             print("Error!", e.__class__, "occurred.")
@@ -50,7 +50,9 @@ class RENEGE:
             name    = data["From"]
             date    = data["Date"]            
             body    = data["Body"]
-            is_spam = data["Spam"]
+            #variable to change
+            ##is_spam = data["Spam"]
+            is_spam = self.e_mail.is_spam(subject,body,log_way_probs,log_way_merged_probs,stemming)
 
             # Get registered data
             user_id = -1

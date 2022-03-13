@@ -55,7 +55,7 @@ class TextCleaning:
         '''
         return string.split()
 
-    def clean_text(self, text):
+    def clean_text(self, text,stemming):
         '''
         Description: fonction qui gere le nettoyage du texte
         Sortie: texte 'propre'
@@ -65,5 +65,6 @@ class TextCleaning:
         text = self.remove_non_ascii(text)
         text = self.tokenize_words(text)
         text = self.remove_stop_words(text)
-        text = self.stem_words(text)
+        if stemming
+            text = self.stem_words(text)
         return text
