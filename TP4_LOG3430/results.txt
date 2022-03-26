@@ -1,0 +1,48 @@
+Test case: 0
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.91)
+
+Test case: 1
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.91)
+
+Test case: 2
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.91)
+
+Test case: 3
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.91)
+
+Test case: 4
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.88)
+
+Test case: 5
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.88)
+
+Test case: 6
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.88)
+
+Test case: 7
+('Accuracy: ', 0.62, 'Precision: ', 0.5, 'Recall: ', 0.88)
+
+Test case: 8
+('Accuracy: ', 0.56, 'Precision: ', 0.47, 'Recall: ', 0.87)
+
+Test case: 9
+('Accuracy: ', 0.56, 'Precision: ', 0.47, 'Recall: ', 0.87)
+
+Test case: 10
+('Accuracy: ', 0.56, 'Precision: ', 0.47, 'Recall: ', 0.87)
+
+Test case: 11
+('Accuracy: ', 0.56, 'Precision: ', 0.47, 'Recall: ', 0.87)
+
+Test case: 12
+('Accuracy: ', 0.55, 'Precision: ', 0.46, 'Recall: ', 0.88)
+
+Test case: 13
+('Accuracy: ', 0.55, 'Precision: ', 0.46, 'Recall: ', 0.88)
+
+Test case: 14
+('Accuracy: ', 0.55, 'Precision: ', 0.46, 'Recall: ', 0.88)
+
+Test case: 15
+('Accuracy: ', 0.55, 'Precision: ', 0.46, 'Recall: ', 0.88)
+
