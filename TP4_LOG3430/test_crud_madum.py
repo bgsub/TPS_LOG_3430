@@ -140,6 +140,7 @@ class TestCrudMadum(unittest.TestCase):
     def test_remove_group_add_new_group_update_group_remove_group_member(self):
         
         crud_obj = CRUD()
+        crud_obj.groups_data.clear
         crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
         #ajout user dans user.json
         crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
@@ -161,6 +162,8 @@ class TestCrudMadum(unittest.TestCase):
      #d4
     def test_add_new_group_remove_group_update_groups_remove_group_member(self):
         crud_obj = CRUD()
+        crud_obj.groups_data.clear
+
         crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
         #ajout user dans user.json
         crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
@@ -178,6 +181,101 @@ class TestCrudMadum(unittest.TestCase):
 
         crud_obj.remove_group_member(1, "datphi@polymtl.ca")
         self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), False)
+        
+    #d5
+    def test_update_groups_remove_group_add_new_group_remove_group_member(self):
+        crud_obj = CRUD()
+        
+        crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
+        #ajout user dans user.json
+        crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("datphi@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("someone@polymtl.ca","1998-07-09")
+        
+        crud_obj.update_groups(1, "name", "just_inf")
+        self.assertEqual(crud_obj.get_groups_data(1, "name"),False)
+      
+        crud_obj.remove_group(1)
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), False)
+        
+        crud_obj.add_new_group("Newgroup",50,["datphi@polymtl.ca"])
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), "Newgroup")
+
+        crud_obj.remove_group_member(1, "datphi@polymtl.ca")
+        self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), [])
+        crud_obj.remove_group(1)
+        
+        
+    #d6
+    def test_remove_group_update_groups_add_new_group_remove_group_member(self):
+        crud_obj = CRUD()
+        
+        crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
+        #ajout user dans user.json
+        crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("datphi@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("someone@polymtl.ca","1998-07-09")
+        
+        crud_obj.remove_group(1)
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), False)
+        
+        
+        crud_obj.update_groups(1, "name", "just_inf")
+        self.assertEqual(crud_obj.get_groups_data(1, "name"),False)
+      
+        crud_obj.add_new_group("Newgroup",50,["datphi@polymtl.ca"])
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), "Newgroup")
+
+        crud_obj.remove_group_member(1, "datphi@polymtl.ca")
+        self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), [])
+        crud_obj.remove_group(1)
+        
+    #d7
+    def test_remove_group_member_update_groups_add_new_group_remove_group(self):
+        crud_obj = CRUD()
+        
+        crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
+        #ajout user dans user.json
+        crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("datphi@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("someone@polymtl.ca","1998-07-09")
+        
+        crud_obj.remove_group_member(1, "datphi@polymtl.ca")
+        self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), False)
+        
+        crud_obj.update_groups(1, "name", "just_inf")
+        self.assertEqual(crud_obj.get_groups_data(1, "name"),False)
+        
+        crud_obj.add_new_group("Newgroup",50,["datphi@polymtl.ca"])
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), "Newgroup")
+        
+        crud_obj.remove_group(1)
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), False)
+        
+        
+    #d8
+    def test_update_groups_remove_group_member_add_new_group_remove_group(self):
+        crud_obj = CRUD()
+        
+        crud_obj.groups_data = {"0": {"name": "default", "Trust": 50, "List_of_members": []}}
+        #ajout user dans user.json
+        crud_obj.add_new_user("yanbra@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("datphi@polymtl.ca","1998-07-09")
+        crud_obj.add_new_user("someone@polymtl.ca","1998-07-09")
+        
+        crud_obj.update_groups(1, "name", "just_inf")
+        self.assertEqual(crud_obj.get_groups_data(1, "name"),False)
+        
+        crud_obj.remove_group_member(1, "datphi@polymtl.ca")
+        self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), False)
+        
+        crud_obj.add_new_group("Newgroup",50,["datphi@polymtl.ca"])
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), "Newgroup")
+        
+        crud_obj.remove_group(1)
+        self.assertEqual(crud_obj.get_groups_data(1, "name"), False)
+        
+    
         
     
     
