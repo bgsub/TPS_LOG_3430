@@ -178,6 +178,8 @@ class TestCrudMadum(unittest.TestCase):
 
         crud_obj.remove_group_member(1, "datphi@polymtl.ca")
         self.assertEqual(crud_obj.get_groups_data(1, "List_of_members"), False)
+        
+    
     
     
     # tests des autres (O) du modele maDUM pour l' attribut groups_data
