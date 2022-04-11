@@ -140,9 +140,8 @@ class TestMain(unittest.TestCase):
     def test_test_shuffle(self):
         print("")
         print("Testing_test_shuffle")
-        f1_initial=self.evaluate("test_set")
         self.training() 
-
+        f1_initial=self.evaluate("test_set")
         f1_final=self.evaluate("test_shuffle")
         print("f1 initial : " + str(f1_initial))
         print("f1 final : " + str(f1_final))
@@ -151,8 +150,8 @@ class TestMain(unittest.TestCase):
     def test_test_duplicate(self):
         print("")
         print("Testing_test_duplicate")
-        f1_initial=self.evaluate("test_set")
         self.training() 
+        f1_initial=self.evaluate("test_set")
         f1_final=self.evaluate("test_words")
         print("f1 initial : " + str(f1_initial))
         print("f1 final : " + str(f1_final))
