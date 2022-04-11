@@ -167,3 +167,34 @@ class TestMain(unittest.TestCase):
         print("f1 initial : " + str(f1_initial))
         print("f1 final : " + str(f1_final))
         self.assertTrue(((f1_initial / f1_final) < 1.03) and ((f1_initial / f1_final) > 0.97))
+   
+    def test_train_triplicate(self):
+        print("")
+        print("Testing_train_triplicate")
+        self.training()
+        f1_initial=self.evaluate("train_set")
+        f1_final= self.evaluate("train_x3")
+        print("f1 initial : " + str(f1_initial))
+        print("f1 final : " + str(f1_final))
+        self.assertTrue(((f1_initial / f1_final) < 1.03) and ((f1_initial / f1_final) > 0.97))
+     
+    def test_train_shuffle(self):
+        print("")
+        print("Testing_train_shuffle")
+        f1_initial=self.evaluate("train_set")
+        self.training() 
+        f1_final=self.evaluate("train_shuffle")
+        print("f1 initial : " + str(f1_initial))
+        print("f1 final : " + str(f1_final))
+        self.assertTrue(((f1_initial / f1_final) < 1.03) and ((f1_initial / f1_final) > 0.97))
+        
+    def test_train_duplicate(self):
+        print("")
+        print("Testing_train_duplicate")
+        f1_initial=self.evaluate("train_set")
+        self.training() 
+        f1_final=self.evaluate("train_words")
+        print("f1 initial : " + str(f1_initial))
+        print("f1 final : " + str(f1_final))
+        self.assertTrue(((f1_initial / f1_final) < 1.03) and ((f1_initial / f1_final) > 0.97))
+        
